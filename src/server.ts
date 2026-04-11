@@ -1,5 +1,7 @@
 import { buildApp } from './app.js';
 
+console.log('server.ts started');
+
 const app = buildApp();
 
 const start = async () => {

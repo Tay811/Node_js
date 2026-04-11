@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
 export const stockShipmentSchema = z.object({
-    items: z.array(
+    targetWarehouse: z.string().min(1, 'targetWarehouse is required'),
+    ingredients: z.array(
         z.object({
-            ingredientName: z.string().min(1, 'ingredientName is required'),
-            quantity: z.number().positive('quantity must be greater than 0'),
-            unit: z.string().min(1, 'unit is required')
+            id: z.string().min(1, 'ingredient id is required'),
+            units: z.number().int().positive('units must be greater than 0')
         })
-    ).min(1, 'items must contain at least one ingredient')
+    ).min(1, 'ingredients must contain at least one item')
 });
 
 export type StockShipmentInput = z.infer<typeof stockShipmentSchema>;
