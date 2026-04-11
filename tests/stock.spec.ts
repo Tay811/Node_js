@@ -17,13 +17,8 @@ describe('POST /stock/shipments', () => {
             method: 'POST',
             url: '/stock/shipments',
             payload: {
-                items: [
-                    {
-                        ingredientName: '',
-                        quantity: -5,
-                        unit: ''
-                    }
-                ]
+                targetWarehouse: '',
+                ingredients: []
             }
         });
 
@@ -35,16 +30,11 @@ describe('POST /stock/shipments', () => {
 
     it('should return 200 for valid request', async () => {
         const payload = {
-            items: [
+            targetWarehouse: 'warehouse-a',
+            ingredients: [
                 {
-                    ingredientName: 'mozzarella',
-                    quantity: 10,
-                    unit: 'kg'
-                },
-                {
-                    ingredientName: 'flour',
-                    quantity: 25,
-                    unit: 'kg'
+                    id: 'mozzarella',
+                    units: 100
                 }
             ]
         };
@@ -56,6 +46,15 @@ describe('POST /stock/shipments', () => {
         });
 
         expect(response.statusCode).toBe(200);
-        expect(response.json()).toEqual(payload);
+
+        const body = response.json();
+
+        expect(Array.isArray(body)).toBe(true);
+        expect(body.length).toBeGreaterThan(0);
+        expect(body[0]).toMatchObject({
+            targetWarehouse: 'warehouse-a',
+            ingredientId: 'mozzarella',
+            units: 100
+        });
     });
 });
