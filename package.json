@@ -1,29 +1,10 @@
 {
   "name": "pizza-backend",
+  "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "packageManager": "pnpm@9.15.9",
   "scripts": {
-    "dev": "tsx src/server.ts",
-    "test": "vitest run",
-    "test:watch": "vitest"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^17.4.1",
-    "drizzle-orm": "^0.45.2",
-    "fastify": "^5.8.2",
-    "pg": "^8.20.0",
-    "zod": "^4.3.6"
-  },
-  "devDependencies": {
-    "@types/node": "^25.5.0",
-    "@types/pg": "^8.20.0",
-    "drizzle-kit": "^0.31.10",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
+    "dev:production": "pnpm --filter pizza-production-service dev",
+    "test:production": "pnpm --filter pizza-production-service test"
   }
 }
