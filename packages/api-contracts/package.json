@@ -1,0 +1,10 @@
+{
+  "name": "@pizza/api-contracts",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@lokalise/api-contracts": "^6.11.0",
+    "zod": "^4.3.6"
+  }
+}

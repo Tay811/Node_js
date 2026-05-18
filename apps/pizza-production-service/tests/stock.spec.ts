@@ -1,5 +1,25 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import { buildApp } from '../src/app.js';
+import { sendByApiContract } from '@lokalise/backend-http-client';
+
+vi.mock('@lokalise/backend-http-client', async () => {
+    const actual = await vi.importActual<typeof import('@lokalise/backend-http-client')>(
+        '@lokalise/backend-http-client'
+    );
+
+    return {
+        ...actual,
+        sendByApiContract: vi.fn().mockResolvedValue({
+            result: {
+                statusCode: 200,
+                headers: {},
+                body: {
+                    success: true
+                }
+            }
+        })
+    };
+});
 
 const app = buildApp();
 
@@ -39,6 +59,7 @@ describe('POST /stock/shipments', () => {
             ]
         };
 
+
         const response = await app.inject({
             method: 'POST',
             url: '/stock/shipments',
@@ -56,5 +77,6 @@ describe('POST /stock/shipments', () => {
             ingredientId: 'mozzarella',
             units: 100
         });
+        expect(sendByApiContract).toHaveBeenCalled();
     });
 });
