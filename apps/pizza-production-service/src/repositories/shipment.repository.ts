@@ -1,6 +1,6 @@
 import { db } from '../db';
 import { shipmentsTable } from '../db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, lt } from 'drizzle-orm';
 
 export class ShipmentRepository {
     async createShipment(data: {
@@ -33,5 +33,14 @@ export class ShipmentRepository {
         await db
             .delete(shipmentsTable)
             .where(eq(shipmentsTable.id, id));
+    }
+
+    async deleteShipmentsOlderThan(date: Date) {
+        const deletedShipments = await db
+            .delete(shipmentsTable)
+            .where(lt(shipmentsTable.createdAt, date))
+            .returning();
+
+        return deletedShipments.length;
     }
 }
